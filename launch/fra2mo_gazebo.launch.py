@@ -140,6 +140,6 @@ def generate_launch_description():
         spawn_entity_node,
         gz_bridge,
         joint_state_publisher_node,
-        depth_camera_tf,
+        #depth_camera_tf,
         #rviz_node
     ])
