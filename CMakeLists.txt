@@ -21,3 +21,8 @@ if(BUILD_TESTING)
 endif()
 
 ament_package()
+install(
+  PROGRAMS src/joy_to_cmdvel.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME joy_to_cmdvel
+)
