@@ -123,13 +123,19 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
-    # Static transform to correct depth camera frame orientation if needed
-    # This publishes identity transform - adjust rpy values if points are rotated
-    depth_camera_tf = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='depth_camera_static_tf',
-        arguments=['0', '0', '0', '0', '0', '0', 'd435_link', 'camera_depth_correct_frame']
+
+    telop_node = Node(
+        package='fra2mo_description',
+        executable='joy_to_cmdvel',
+        name='joy_to_cmdvel',
+        output='screen'
+    )
+
+    joy_node = Node(
+        package='joy',
+        executable='joy_node',
+        name='joy_node',
+        output='screen'
     )
 
     return LaunchDescription([
@@ -140,6 +146,8 @@ def generate_launch_description():
         spawn_entity_node,
         gz_bridge,
         joint_state_publisher_node,
-        #depth_camera_tf,
+        joy_node,
+        telop_node
         #rviz_node
+ 
     ])
