@@ -29,17 +29,17 @@ def generate_launch_description():
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
-        description='Use simulation (Gazebo) clock if true'
     )
 
     # Set the Gazebo resource path for meshes
     # GZ looks for model://package_name/...
     # Include both local workspace and realsense2_description paths
     realsense_share = get_package_share_directory('realsense2_description')
+    # Include worlds directory in GZ_SIM_RESOURCE_PATH
     gz_resource_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
-        value=os.path.dirname(pkg_share) + ':' + os.path.dirname(realsense_share)
-        # Points to .../share/ directories so model://package_name works
+        value=os.path.join(pkg_share, 'worlds') + ':' + os.path.join(pkg_share, 'models') + ':' + os.path.dirname(pkg_share) + ':' + os.path.dirname(realsense_share)
+        # Points to .../fra2mo_description/worlds, .../fra2mo_description/models e .../share/ directories
     )
 
     # Robot description from xacro
@@ -50,13 +50,13 @@ def generate_launch_description():
 
     #  Include Gazebo Ignition launch file
     gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
-        ),
-        launch_arguments={
-            'gz_args': '-r empty.sdf'
-        }.items()
-    )
+            PythonLaunchDescriptionSource(
+                os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
+            ),
+            launch_arguments={
+                'gz_args': '-r leonardo_race_field.sdf'
+            }.items()
+        )
 
     # Robot State Publisher node
     robot_state_publisher_node = Node(
