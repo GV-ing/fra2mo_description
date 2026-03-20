@@ -1,68 +1,81 @@
 <?xml version="1.0"?>
-<robot name="lidar_gazebo_macro" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <!--xacro:include filename="$(find fra2mo_description)/urdf/utility_macro.xacro" /-->
-  
-  <xacro:macro name="lidar_gazebo_sensor" params="parent" > 
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lidar_gazebo_macro" >
+
+  <!--<xacro:include filename="$(find fra2mo_description)/urdf/utility_macro.xacro" />-->
+
+  <xacro:macro name="lidar_gazebo_sensor" params="parent">
+
     <link name="laser_frame">
       <inertial>
-          <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
-        <mass value="0.1" />
         <origin xyz="0 0 0" />
-        <cylinder_inertia  m="0.1" r="0.037" h="0.04" />
-      </inertial>    
-      <visual> 
+        <mass value="0.1" />
+        <xacro:cylinder_inertia m="0.1" r="0.037" h="0.04" />
+      </inertial>
+      <visual>
+        <origin rpy="0 0 ${-M_PI_2}" xyz="0.0 0.0 -0.031" />
         <geometry>
-          <mesh filename="package://fra2mo_description/meshes/lidar.stl" scale="0.001 0.001 0.001 "/>
+          <mesh filename="file://$(find fra2mo_description)/meshes/lidar.stl" scale="0.001 0.001 0.001" />
         </geometry>
-        <material name="White"/>
-        <origin rpy="0 0 ${-M_PI_2}" xyz="0.0 0.0 -0.031"/>
+        <material name="White" />
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0 " />
+        <origin xyz="0.0 0.0 -0.031" rpy="0 0 0" />
         <geometry>
           <cylinder length="0.04" radius="0.037" />
         </geometry>
-        <origin rpy="0 0 0" xyz="0.0 0.0 -0.031"/>
-      </collision> 
-         
+      </collision>
     </link>
 
     <joint name="laser_joint" type="fixed">
-      <parent link="${parent}"/>
-      <child link="laser_frame"/>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.031"/>
+      <parent link="${parent}" />
+      <child link="laser_frame" />
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.031" />
     </joint>
 
     <gazebo reference="laser_frame">
-      <sensor type="gpu_lidar" name="head_hokuyo_sensor">
-        <pose>0 0 0 0 0 0</pose>
-        <visualize>false</visualize>
-        <update_rate>40</update_rate>
-        <topic>scan</topic>
-        <gz_frame_id>laser_frame</gz_frame_id>
-        <lidar>
-            <scan>
-              <horizontal>
-                <samples>720</samples>
-                <resolution>1</resolution>
-                <min_angle>-${M_PI}</min_angle>
-                <max_angle>${M_PI}</max_angle>
-              </horizontal>
-            </scan>
-            <range>
-              <min>0.8</min>
-              <max>30.0</max>
-              <resolution>0.01</resolution>
-            </range>
-            <noise>
-              <type>gaussian</type>
-              <mean>0.0</mean>
-              <stddev>0.01</stddev>
-            </noise>
-        </lidar>
-        <always_on>true</always_on>
-      </sensor>
+      <sensor name="laser_frame" type="gpu_lidar">
+          <!--<pose relative_to="laser_frame">0 0 0 0 0 0</pose>--> <!--TO LOOK-->
+          <topic>lidar</topic>
+          <update_rate>10</update_rate>
+          <ray>
+              <scan>
+                  <horizontal>
+                      <samples>640</samples>
+                      <resolution>1</resolution>
+                      <min_angle>-3.14</min_angle>
+                      <max_angle>3.14</max_angle>
+                  </horizontal>
+                  <!--<vertical>
+                      <samples>640</samples>
+                      <resolution>1</resolution>
+                      <min_angle>-1.61799</min_angle>
+                      <max_angle>1.661799</max_angle>
+                  </vertical>-->
+              </scan>
+              <range>
+                  <min>0.1</min>
+                  <max>10.0</max>
+                  <resolution>0.01</resolution>
+              </range>
+            </ray>
+            <always_on>false</always_on>
+            <visualize>false</visualize>
+            <frame_id>laser_frame</frame_id> <!--TO LOOK-->
+            <ignition_frame_id>laser_frame</ignition_frame_id>
+        </sensor>
     </gazebo>
+
+  <!--TO LOOK-->
+  <!--<gazebo> 
+    <plugin filename="libignition-gazebo-sensors-system.so" 
+      name="ignition::gazebo::systems::Sensors"> 
+        <render_engine>ogre2</render_engine>
+    </plugin>  
+  </gazebo>-->
+
+  <gazebo>
+  <plugin filename="ignition-gazebo-sensors-system" name="gz::sim::systems::Sensors" />
+  </gazebo>
 
   </xacro:macro>
 </robot>

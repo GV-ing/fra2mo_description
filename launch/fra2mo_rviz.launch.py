@@ -13,7 +13,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('fra2mo_description')
     
     # URDF/Xacro files path
-    xacro_file = os.path.join(pkg_share, 'urdf', 'fra2mo.xacro')
+    xacro_file = os.path.join(pkg_share, 'urdf', 'fra2mo.urdf.xacro')
     
     # RViz configuration file path
     rviz_config_file = os.path.join(pkg_share, 'conf', 'fra2mo_conf_ros2.rviz')

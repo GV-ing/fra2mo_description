@@ -14,7 +14,7 @@ def generate_launch_description():
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     
     # URDF/Xacro files path
-    xacro_file = os.path.join(pkg_share, 'urdf', 'fra2mo.xacro')
+    xacro_file = os.path.join(pkg_share, 'urdf', 'fra2mo.urdf.xacro')
     
     # RViz configuration file path
     rviz_config_file = os.path.join(pkg_share, 'conf', 'fratomo_conf_ros2.rviz')
@@ -148,7 +148,7 @@ def generate_launch_description():
         gz_bridge,
         joint_state_publisher_node,
         joy_node,
-        telop_node
+        telop_node,
         #rviz_node
  
     ])
