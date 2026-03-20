@@ -55,6 +55,7 @@ def generate_launch_description():
             ),
             launch_arguments={
                 'gz_args': '-r leonardo_race_field.sdf'
+                #'gz_args': '-r empty.sdf'
             }.items()
         )
 
