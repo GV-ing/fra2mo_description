@@ -79,7 +79,7 @@ def generate_launch_description():
         output='screen',
         arguments=[
             '-topic', 'robot_description',
-            '-name', 'fratomo',
+            '-name', 'fra2mo',
             '-x', '0.0',
             '-y', '0.0',
             '-z', '0.1'
@@ -98,11 +98,14 @@ def generate_launch_description():
             '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
-            '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+            '/model/fra2mo/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
             '/depth_camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/depth_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/depth_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
             '/depth_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo'
+        ],
+        remappings=[
+            ('/model/fra2mo/tf', '/tf')
         ]
     )
 

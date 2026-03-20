@@ -5,6 +5,9 @@
   <!-- WHOLE BASE MACRO-->
   <xacro:macro name="fra2mo_base" > <!--fb : front, back ; lr: left, right -->
 
+  <!-- Odometry root frame -->
+  <link name="base_footprint"/>
+
     <!-- Base properties -->
     <xacro:property name="base_height" value="0.180" /> 
     <xacro:property name="base_radius" value="0.11" /> 
@@ -13,9 +16,7 @@
     <xacro:property name="wheel_radius" value="0.035" /> 
     <xacro:property name="wheel_axle" value="0.13" /> 
    
-    <!-- Actual body/chassis of the robot -->
-    <link name="base_footprint">
-    </link>
+
 
     <link name="base_link">
       <!-- Inertial properties -->
@@ -56,11 +57,11 @@
         <material name="Black" />
         <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
-      <collision> 
+      <collision>
         <geometry>
-          <mesh filename="file://$(find fra2mo_description)/meshes/fra2mo_wheel.stl" scale="0.001 0.001 0.001" />
+          <cylinder length="0.02" radius="${wheel_radius}" />
         </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 1.5708 1.5708" />
       </collision>
       <inertial>
         <origin xyz="0 0 0" />
@@ -78,11 +79,11 @@
         <material name="Black"/>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
-      <collision> 
+      <collision>
         <geometry>
-          <mesh filename="file://$(find fra2mo_description)/meshes/fra2mo_wheel.stl" scale="0.001 0.001 0.001" />
+          <cylinder length="0.02" radius="${wheel_radius}" />
         </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 1.5708 1.5708" />
       </collision>
       <inertial>
         <origin xyz="0 0 0" />
@@ -159,17 +160,33 @@
       </actuator>
     </transmission>
 
-    <!-- Plugin for differential drive control in Gazebo--> 
+    <!-- Plugin for differential drive control in Gazebo-->
     <gazebo>
-      <plugin name="ignition::gazebo::systems::DiffDrive" filename="libignition-gazebo-diff-drive-system.so">
+      <plugin filename="libignition-gazebo-diff-drive-system.so" name="ignition::gazebo::systems::DiffDrive">
         <left_joint>left_wheel_joint</left_joint>
         <right_joint>right_wheel_joint</right_joint>
+        
         <wheel_separation>${wheel_axle}</wheel_separation>
         <wheel_radius>${wheel_radius}</wheel_radius>
-        <!--<frame_id>base_footprint</frame_id> TO LOOK
-        <ignition_frame_id>base_footprint</ignition_frame_id>--> 
+        
+        <max_linear_acceleration>1.0</max_linear_acceleration>
+        <min_linear_acceleration>-1.0</min_linear_acceleration>
+        <max_angular_acceleration>1.0</max_angular_acceleration>
+        <min_angular_acceleration>-1.0</min_angular_acceleration>
+        <max_linear_velocity>2.0</max_linear_velocity>
+        <min_linear_velocity>-2.0</min_linear_velocity>
+        <max_angular_velocity>2.0</max_angular_velocity>
+        <min_angular_velocity>-2.0</min_angular_velocity>
+
+        <frame_id>odom</frame_id>
+        <child_frame_id>base_footprint</child_frame_id>
+        
         <odom_publish_frequency>50</odom_publish_frequency>
+        <odom_topic>odom</odom_topic>
         <topic>cmd_vel</topic>
+        
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
       </plugin>
     </gazebo>
 

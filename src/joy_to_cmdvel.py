@@ -16,7 +16,7 @@ class JoyToCmdVel(Node):
         self.subscription  
         self.linear_axis = 1  
         self.angular_axis = 2
-        self.linear_scale = 0.8
+        self.linear_scale = 1.0
         self.angular_scale = 1.0
 
     def joy_callback(self, msg):
