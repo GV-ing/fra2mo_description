@@ -6,7 +6,7 @@
     <description>Fra2mo robot description package</description>
 
     <maintainer email="g.vestri2904@gmail.com">Giulio</maintainer>
-    <license>TODO</license>
+    <license>MIT</license>
 
     <buildtool_depend>ament_cmake</buildtool_depend>
 
