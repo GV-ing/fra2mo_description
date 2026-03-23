@@ -162,7 +162,7 @@
 
     <!-- Plugin for differential drive control in Gazebo-->
     <gazebo>
-      <plugin filename="libignition-gazebo-diff-drive-system.so" name="ignition::gazebo::systems::DiffDrive">
+      <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
         <left_joint>left_wheel_joint</left_joint>
         <right_joint>right_wheel_joint</right_joint>
         
@@ -192,4 +192,3 @@
 
   </xacro:macro>
 </robot>
-

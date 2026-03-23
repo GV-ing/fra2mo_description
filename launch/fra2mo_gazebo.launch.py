@@ -9,37 +9,29 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    # Package path
+    # Package paths
     pkg_share = get_package_share_directory('fra2mo_description')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     
     # URDF/Xacro files path
     xacro_file = os.path.join(pkg_share, 'urdf', 'fra2mo.urdf.xacro')
     
-    # RViz configuration file path
-    rviz_config_file = os.path.join(pkg_share, 'conf', 'fratomo_conf_ros2.rviz')
+    # RViz configuration file path (Corretto errore di battitura 'fratomo')
+    rviz_config_file = os.path.join(pkg_share, 'conf', 'fra2mo_conf_ros2.rviz')
 
     # Launch arguments
     use_sim_time = LaunchConfiguration('use_sim_time')
     
-    # Used to enable Gazebo simulation time
-    # This way all nodes using time synchronize with Gazebo
-    # instead of real time, avoiding synchronization issues 
-    # between nodes and simulation
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
     )
 
-    # Set the Gazebo resource path for meshes
-    # GZ looks for model://package_name/...
-    # Include both local workspace and realsense2_description paths
+    # Set the Gazebo resource path for meshes and models
     realsense_share = get_package_share_directory('realsense2_description')
-    # Include worlds directory in GZ_SIM_RESOURCE_PATH
     gz_resource_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
         value=os.path.join(pkg_share, 'worlds') + ':' + os.path.join(pkg_share, 'models') + ':' + os.path.dirname(pkg_share) + ':' + os.path.dirname(realsense_share)
-        # Points to .../fra2mo_description/worlds, .../fra2mo_description/models e .../share/ directories
     )
 
     # Robot description from xacro
@@ -48,14 +40,13 @@ def generate_launch_description():
         value_type=str
     )
 
-    #  Include Gazebo Ignition launch file
+    # Include Gazebo Harmonic launch file
     gazebo = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
             ),
             launch_arguments={
                 'gz_args': '-r leonardo_race_field.sdf'
-                #'gz_args': '-r empty.sdf'
             }.items()
         )
 
@@ -71,7 +62,7 @@ def generate_launch_description():
         }]
     )
 
-    # Spawn robot in Gazebo Ignition
+    # Spawn robot in Gazebo Harmonic
     spawn_entity_node = Node(
         package='ros_gz_sim',
         executable='create',
@@ -86,7 +77,7 @@ def generate_launch_description():
         ]
     )
 
-    # Bridge for Gazebo Ignition <-> ROS 2 topics
+    # Bridge for Gazebo Harmonic <-> ROS 2 topics
     gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -127,7 +118,6 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
-
     telop_node = Node(
         package='fra2mo_description',
         executable='joy_to_cmdvel',
@@ -153,5 +143,4 @@ def generate_launch_description():
         joy_node,
         telop_node,
         #rviz_node
- 
     ])

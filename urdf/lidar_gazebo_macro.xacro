@@ -54,31 +54,11 @@
           <always_on>true</always_on>
           <visualize>true</visualize>
           <frame_id>laser_frame</frame_id>
-          <ignition_frame_id>laser_frame</ignition_frame_id>
-          <!-- Plugin ROS classic per pubblicare su topic ROS 
-          <plugin name="gazebo_ros_laser" filename="libgazebo_ros_ray_sensor.so">
-            <ros>
-            <namespace>/</namespace>
-            <remapping>~/scan:=/scan</remapping>
-            </ros>
-            <frame_name>laser_frame</frame_name>
-            <topic>scan</topic>
-          </plugin>-->
+          <gz_frame_id>laser_frame</gz_frame_id>
         </sensor>
     </gazebo>
 
-  <!--TO LOOK-->
-  <!--<gazebo> 
-    <plugin filename="libignition-gazebo-sensors-system.so" 
-      name="ignition::gazebo::systems::Sensors"> 
-        <render_engine>ogre2</render_engine>
-    </plugin>  
-  </gazebo>-->
 
-  <gazebo>
-  <plugin filename="ignition-gazebo-sensors-system" name="gz::sim::systems::Sensors" />
-  </gazebo>
 
   </xacro:macro>
 </robot>
-

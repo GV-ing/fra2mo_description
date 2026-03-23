@@ -11,12 +11,20 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     # Package path
     pkg_share = get_package_share_directory('fra2mo_description')
-    
+
     # URDF/Xacro files path
     xacro_file = os.path.join(pkg_share, 'urdf', 'fra2mo.urdf.xacro')
-    
+
     # RViz configuration file path
     rviz_config_file = os.path.join(pkg_share, 'conf', 'fra2mo_conf_ros2.rviz')
+
+    # Launch argument for use_sim_time
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    declare_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation (Gazebo) clock if true'
+    )
 
     # Robot description from xacro
     robot_description = ParameterValue(
@@ -30,7 +38,7 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': robot_description}]
+        parameters=[{'robot_description': robot_description, 'use_sim_time': use_sim_time}]
     )
 
     # Joint State Publisher node
@@ -38,7 +46,8 @@ def generate_launch_description():
         package='joint_state_publisher',
         executable='joint_state_publisher',
         name='joint_state_publisher',
-        output='screen'
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}]
     )
 
     # RViz node
@@ -47,12 +56,13 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        arguments=['-d', rviz_config_file]
+        arguments=['-d', rviz_config_file],
+        parameters=[{'use_sim_time': use_sim_time}]
     )
-
 
     # This launch file launches the nodes needed to visualize the robot in RViz
     return LaunchDescription([
+        declare_use_sim_time,
         robot_state_publisher_node,
         joint_state_publisher_node,
         rviz_node
