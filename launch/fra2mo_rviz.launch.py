@@ -53,7 +53,7 @@ def generate_launch_description():
 
     # This launch file launches the nodes needed to visualize the robot in RViz
     return LaunchDescription([
-        robot_state_publisher_node,
-        joint_state_publisher_node,
+        #robot_state_publisher_node,
+        #joint_state_publisher_node,
         rviz_node
     ])
