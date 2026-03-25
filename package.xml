@@ -21,10 +21,6 @@
     <depend>xacro</depend>
     <depend>robot_state_publisher</depend>
     <depend>joint_state_publisher</depend>
-    <depend>joint_state_publisher_gui</depend>
-    <depend>ros_gz</depend>
-    <depend>ros_gz_sim</depend>
-    <depend>ros_gz_bridge</depend>
 
     <exec_depend>launch</exec_depend>
     <exec_depend>launch_ros</exec_depend>
