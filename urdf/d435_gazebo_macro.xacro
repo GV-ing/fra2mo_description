@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="d435_macro" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  
+  <xacro:macro name="d435_sensor" params="parent">
+    <xacro:sensor_d435 parent="${parent}" use_nominal_extrinsics="true" add_plug="false" use_mesh="true">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:sensor_d435>
+    
+
+  </xacro:macro>
+</robot>
