@@ -99,7 +99,6 @@ def generate_launch_description():
             '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
-            # Questa riga mappa il topic /tf di Gazebo al topic /tf di ROS 2
             '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V', 
             '/depth_camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/depth_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
