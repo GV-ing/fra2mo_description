@@ -48,7 +48,7 @@ def generate_launch_description():
         value_type=str
     )
 
-    #  Include Gazebo Ignition launch file
+    #  Include Gazebo harmonic launch file
     gazebo = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
@@ -71,7 +71,7 @@ def generate_launch_description():
         }]
     )
 
-    # Spawn robot in Gazebo Ignition
+    # Spawn robot in Gazebo harmonic
     spawn_entity_node = Node(
         package='ros_gz_sim',
         executable='create',
@@ -86,7 +86,8 @@ def generate_launch_description():
         ]
     )
 
-    # Bridge for Gazebo Ignition <-> ROS 2 topics
+    # Bridge for Gazebo harmonic <-> ROS 2 topics
+# Modifica nel blocco gz_bridge del tuo launch file
     gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -98,14 +99,12 @@ def generate_launch_description():
             '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
-            '/model/fra2mo/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+            # Questa riga mappa il topic /tf di Gazebo al topic /tf di ROS 2
+            '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V', 
             '/depth_camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/depth_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
             '/depth_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
             '/depth_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo'
-        ],
-        remappings=[
-            ('/model/fra2mo/tf', '/tf')
         ]
     )
 
@@ -149,7 +148,7 @@ def generate_launch_description():
         robot_state_publisher_node,
         spawn_entity_node,
         gz_bridge,
-        joint_state_publisher_node,
+        #joint_state_publisher_node,
         joy_node,
         telop_node,
         #rviz_node

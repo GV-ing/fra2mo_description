@@ -15,7 +15,7 @@ class JoyToCmdVel(Node):
             10)
         self.subscription  
         self.linear_axis = 1  
-        self.angular_axis = 2
+        self.angular_axis = 3
         self.linear_scale = 1.0
         self.angular_scale = 1.0
 
