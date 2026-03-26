@@ -29,7 +29,7 @@
     <joint name="laser_joint" type="fixed">
       <parent link="${parent}" />
       <child link="laser_frame" />
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.031" />
+      <origin rpy="0 0 ${-M_PI}" xyz="0.0 0.0 0.031" />
     </joint>
 
     
