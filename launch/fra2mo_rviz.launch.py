@@ -24,7 +24,8 @@ def generate_launch_description():
         value_type=str
     )
 
-    # Robot State Publisher node
+    # Robot State Publisher node,
+    # not necessary since we are using Gazebo Harmonic to simulate the robot,
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -33,7 +34,8 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_description}]
     )
 
-    # Joint State Publisher node
+    # Joint State Publisher node,
+    # not necessary since we are using Gazebo Harmonic to simulate the robot,
     joint_state_publisher_node = Node(
         package='joint_state_publisher',
         executable='joint_state_publisher',
@@ -50,10 +52,30 @@ def generate_launch_description():
         arguments=['-d', rviz_config_file]
     )
 
+    #Joistick teleoperation node
+    # not necessary since we already lounch it in 
+    # fra2mo_gazebo.launch.py
+    telop_node = Node(
+        package='fra2mo_description',
+        executable='joy_to_cmdvel',
+        name='joy_to_cmdvel',
+        output='screen'
+    )
+    #Reading joystick inputs Node
+    # not necessary since we already lounch it in 
+    # fra2mo_gazebo.launch.py
+    joy_node = Node(
+        package='joy',
+        executable='joy_node',
+        name='joy_node',
+        output='screen'
+    )
 
-    # This launch file launches the nodes needed to visualize the robot in RViz
+
     return LaunchDescription([
         #robot_state_publisher_node,
         #joint_state_publisher_node,
+        #telop_node,
+        #joy_node,
         rviz_node
     ])

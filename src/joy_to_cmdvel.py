@@ -5,6 +5,8 @@ from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 
 class JoyToCmdVel(Node):
+    # This node subscribes to joystick inputs 
+    # and publishes velocity commands to control the robot in Gazebo Harmonic.
     def __init__(self):
         super().__init__('joy_to_cmdvel')
         self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
@@ -14,6 +16,8 @@ class JoyToCmdVel(Node):
             self.joy_callback,
             10)
         self.subscription  
+        #The following parameters define which axes of the joystick
+        # control linear and angular velocity, and their respective scales.
         self.linear_axis = 1  
         self.angular_axis = 3
         self.linear_scale = 1.0

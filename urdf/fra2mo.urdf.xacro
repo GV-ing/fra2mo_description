@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-
+<!--This file defines the URDF for the Fra2Mo robot,
+ including its base, LIDAR, and RGBD sensors.-->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="fra2mo" >
   <xacro:include filename="$(find fra2mo_description)/urdf/fra2mo_base_macro.xacro"/>
   <xacro:include filename="$(find fra2mo_description)/urdf/lidar_gazebo_macro.xacro"/> 

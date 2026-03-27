@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lidar_gazebo_macro" >
 
-  <!--<xacro:include filename="$(find fra2mo_description)/urdf/utility_macro.xacro" />-->
+  <!--xacro:include filename="$(find fra2mo_description)/urdf/utility_macro.xacro" /-->
 
   <xacro:macro name="lidar_gazebo_sensor" params="parent">
-
+    <!-- Lidar is composed by a single link and a fixed joint -->
     <link name="laser_frame">
       <inertial>
         <origin xyz="0 0 0" />
@@ -31,11 +31,13 @@
       <child link="laser_frame" />
       <origin rpy="0 0 0" xyz="0.0 0.0 0.031" />
     </joint>
-
+    <!-- Gazebo plugin for the LiDAR sensor -->
     <gazebo reference="laser_frame">
       <sensor name="lidar" type="gpu_lidar">
+        <!-- Frame ID for the LiDAR sensor -->
         <gz_frame_id>laser_frame</gz_frame_id>
         <pose>0 0 0 0 0 0</pose>
+        <!-- Topic name for the LiDAR data -->
         <topic>/scan</topic>
         <update_rate>10</update_rate>
         <ray>
@@ -58,6 +60,7 @@
       </sensor>
     </gazebo>
 
+    <!-- Gazebo plugin for the LiDAR sensor -->
     <gazebo>
     <plugin
       filename="gz-sim-sensors-system"

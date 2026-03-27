@@ -21,25 +21,20 @@ def generate_launch_description():
 
     # Launch arguments
     use_sim_time = LaunchConfiguration('use_sim_time')
-    
+
+    # Include realsense2_description paths
+    realsense_share = get_package_share_directory('realsense2_description')
+
     # Used to enable Gazebo simulation time
-    # This way all nodes using time synchronize with Gazebo
-    # instead of real time, avoiding synchronization issues 
-    # between nodes and simulation
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
     )
 
-    # Set the Gazebo resource path for meshes
-    # GZ looks for model://package_name/...
-    # Include both local workspace and realsense2_description paths
-    realsense_share = get_package_share_directory('realsense2_description')
     # Include worlds directory in GZ_SIM_RESOURCE_PATH
     gz_resource_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
         value=os.path.join(pkg_share, 'worlds') + ':' + os.path.join(pkg_share, 'models') + ':' + os.path.dirname(pkg_share) + ':' + os.path.dirname(realsense_share)
-        # Points to .../fra2mo_description/worlds, .../fra2mo_description/models e .../share/ directories
     )
 
     # Robot description from xacro
@@ -48,7 +43,7 @@ def generate_launch_description():
         value_type=str
     )
 
-    #  Include Gazebo harmonic launch file
+    #  Gazebo Harmonic Node
     gazebo = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
@@ -59,7 +54,7 @@ def generate_launch_description():
             }.items()
         )
 
-    # Robot State Publisher node
+    # Robot State Publisher Node
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -71,7 +66,7 @@ def generate_launch_description():
         }]
     )
 
-    # Spawn robot in Gazebo harmonic
+    # Spawn robot in Gazebo Harmonic
     spawn_entity_node = Node(
         package='ros_gz_sim',
         executable='create',
@@ -86,8 +81,7 @@ def generate_launch_description():
         ]
     )
 
-    # Bridge for Gazebo harmonic <-> ROS 2 topics
-# Modifica nel blocco gz_bridge del tuo launch file
+    # Bridge for Gazebo Harmonic <-> ROS 2 topics
     gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -108,6 +102,8 @@ def generate_launch_description():
     )
 
     # Joint State Publisher GUI node
+    #not necessary since we are using Gazebo Harmonic to simulate the robot, 
+    # which will publish joint states directly
     joint_state_publisher_node = Node(
         package='joint_state_publisher',
         executable='joint_state_publisher',
@@ -115,24 +111,14 @@ def generate_launch_description():
         output='screen'
     )
 
-    # RViz node
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config_file],
-        parameters=[{'use_sim_time': use_sim_time}]
-    )
-
-
+    #Joistick teleoperation node
     telop_node = Node(
         package='fra2mo_description',
         executable='joy_to_cmdvel',
         name='joy_to_cmdvel',
         output='screen'
     )
-
+    #Reading joystick inputs Node
     joy_node = Node(
         package='joy',
         executable='joy_node',
@@ -149,7 +135,6 @@ def generate_launch_description():
         gz_bridge,
         #joint_state_publisher_node,
         joy_node,
-        telop_node,
-        #rviz_node
+        telop_node
  
     ])

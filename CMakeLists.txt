@@ -7,6 +7,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
+# Install the necessary folders 
 install(DIRECTORY
   urdf
   meshes
@@ -23,6 +24,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+#Install the joy_to_cmdvel script
 ament_package()
 install(
   PROGRAMS src/joy_to_cmdvel.py

@@ -2,8 +2,7 @@
 <robot  xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:include filename="$(find fra2mo_description)/urdf/utility_macro.xacro" />
 
-  <!-- WHOLE BASE MACRO-->
-  <xacro:macro name="fra2mo_base" > <!--fb : front, back ; lr: left, right -->
+  <xacro:macro name="fra2mo_base" >
 
   <!-- Odometry root frame -->
   <link name="base_footprint"/>
@@ -130,19 +129,7 @@
       <origin xyz="0.0 0.0 0.125" rpy="0 0 0" />
     </joint>
 
-    <!-- Gazebo Material Assignments 
-    <gazebo reference="base_link">
-      <material>Gazebo/Blue</material>
-    </gazebo>
-    <gazebo reference="left_wheel_link">
-      <material>Gazebo/Black</material>
-    </gazebo>
-    <gazebo reference="right_wheel_link">
-      <material>Gazebo/Black</material>
-    </gazebo>-->
-
-    <!-- Transmissions -->
-
+    <!-- Transmissions for the wheel joints -->
     <transmission name="left_wheel_joint_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="left_wheel_joint" />
@@ -169,7 +156,7 @@
         <right_joint>right_wheel_joint</right_joint>
         <wheel_separation>${wheel_axle}</wheel_separation>
         <wheel_radius>${wheel_radius}</wheel_radius>
-
+        <!-- Limits for the differential drive -->
         <max_linear_acceleration>1.0</max_linear_acceleration>
         <min_linear_acceleration>-1.0</min_linear_acceleration>
         <max_angular_acceleration>1.0</max_angular_acceleration>
@@ -181,6 +168,8 @@
 
         <odom_publish_frequency>50</odom_publish_frequency>
         <topic>/cmd_vel</topic>
+
+        <!-- Odometry and TF topics -->
         <odom_topic>/odom</odom_topic>
         <tf_topic>/tf</tf_topic>
         <frame_id>odom</frame_id>
@@ -190,6 +179,7 @@
         <publish_wheel_tf>true</publish_wheel_tf>
       </plugin>
 
+      <!-- Joint State Publisher plugin -->
       <plugin
         filename="libgz-sim-joint-state-publisher-system.so"
         name="gz::sim::systems::JointStatePublisher">
