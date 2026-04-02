@@ -59,7 +59,8 @@ def generate_launch_description():
         package='fra2mo_description',
         executable='joy_to_cmdvel',
         name='joy_to_cmdvel',
-        output='screen'
+        output='screen',
+        remappings=[('/cmd_vel', '/fra2mo/cmd_vel')]
     )
     #Reading joystick inputs Node
     # not necessary since we already lounch it in 
@@ -75,7 +76,7 @@ def generate_launch_description():
     return LaunchDescription([
         #robot_state_publisher_node,
         #joint_state_publisher_node,
-        #telop_node,
-        #joy_node,
+        telop_node,
+        joy_node,
         rviz_node
     ])
