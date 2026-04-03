@@ -13,6 +13,7 @@ install(DIRECTORY
   launch
   conf
   meshes
+  maps
   DESTINATION share/${PROJECT_NAME}
 )
 
