@@ -16,7 +16,7 @@ def generate_launch_description():
     xacro_file = os.path.join(pkg_share, 'urdf', 'fra2mo.urdf.xacro')
     
     # RViz configuration file path
-    rviz_config_file = os.path.join(pkg_share, 'conf', 'fra2mo_conf_ros2.rviz')
+    rviz_config_file = os.path.join(pkg_share, 'conf', 'fra2mo_conf_ros2_sim.rviz')
 
     # Robot description from xacro
     robot_description = ParameterValue(
