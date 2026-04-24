@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
   <world name="leonardo_race_field">
+
+
+
+
     <!--Definition of the physics properties for the world-->
     <physics name='default_physics' default='0' type='ode'>
       <gravity>0 0 -9.8066</gravity>

@@ -20,7 +20,7 @@ class JoyToCmdVel(Node):
         #The following parameters define which axes of the joystick
         # control linear and angular velocity, and their respective scales.
         self.linear_axis = 1  
-        self.angular_axis = 3
+        self.angular_axis = 2
         self.linear_scale = 0.7
         self.angular_scale = 0.7
         self.deadzone = 1e-3

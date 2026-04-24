@@ -37,6 +37,12 @@ def generate_launch_description():
         value=os.path.join(pkg_share, 'worlds') + ':' + os.path.join(pkg_share, 'models') + ':' + os.path.dirname(pkg_share) + ':' + os.path.dirname(realsense_share)
     )
 
+        # Set Gazebo GUI config file
+    gz_gui_config_path = SetEnvironmentVariable(
+            name='GZ_GUI_CONFIG_PATH',
+            value=os.path.join(pkg_share, 'conf', 'gazebo_config.config')
+        )
+
     # Robot description from xacro
     robot_description = ParameterValue(
         Command(['xacro ', xacro_file]),
@@ -128,7 +134,8 @@ def generate_launch_description():
 
     return LaunchDescription([
         declare_use_sim_time,
-        gz_resource_path,
+            gz_resource_path,
+            gz_gui_config_path,
         gazebo,
         robot_state_publisher_node,
         spawn_entity_node,
