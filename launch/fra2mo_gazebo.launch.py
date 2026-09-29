@@ -141,7 +141,7 @@ def generate_launch_description():
         spawn_entity_node,
         gz_bridge,
         #joint_state_publisher_node,
-        joy_node,
-        telop_node
+        #joy_node,
+        #telop_node
  
     ])
